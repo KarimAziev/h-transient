@@ -1,0 +1,47 @@
+#+OPTIONS: tags:nil
+#+TITLE:README
+#+AUTHOR: Karim Aziiev
+#+EMAIL: karim.aziiev@gmail.com
+
+* h-transient
+
+Transient interface for help commands.
+
+[[./h-transient-demo.png]]
+
+** Requirements
++ Emacs >= 27.1
++ transient
+
+** Installation
+
+*** Manual
+
+Download the source code and put it wherever you like and add the directory to the load path:
+
+#+begin_src elisp :eval no
+
+(add-to-list 'load-path "/path/to/h-transient")
+
+(require 'h-transient)
+
+#+end_src
+
+*** With use-package and straight
+
+#+begin_src elisp :eval no
+
+(use-package h-transient
+  :straight (h-transient
+             :repo "KarimAziev/h-transient"
+             :type git
+             :host github))
+
+#+end_src
+
+** Usage
+
+Run ~M-x h-transient~ to show the emacs help commands.
+
+
+
