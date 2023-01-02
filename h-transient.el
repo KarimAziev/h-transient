@@ -34,7 +34,7 @@
 
 (require 'transient)
 
-;;;###autoload (autoload 'h-transient "tray" nil t)
+;;;###autoload (autoload 'h-transient "h-transient" nil t)
 (transient-define-prefix h-transient ()
   "Command dispatcher for help commands."
   [["Show help for"
