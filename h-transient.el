@@ -53,10 +53,12 @@
   [["Show Manual"
     ("r" "Emacs manual"                           info-emacs-manual)
     ("F" "Emacs manual for command"               Info-goto-emacs-command-node)
-    ("K" "Manual for a key"                       Info-goto-emacs-key-command-node)
+    ("K" "Manual for a key"
+     Info-goto-emacs-key-command-node)
     ("i" "All installed manuals"                  info)
     ("R" "A specific manual"                      info-display-manual)
-    ("S" "Symbol manual"                          info-lookup-symbol)]
+    ("S" "Symbol manual"                          info-lookup-symbol)
+    ("u" "Unix man page"                          manual-entry)]
    ["Other Help Commands"
     ("%" "Extending Emacs with external packages" view-external-packages)
     ("p" "Search for Emacs packages"              finder-by-keyword)
