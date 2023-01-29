@@ -33,6 +33,7 @@
 
 
 (require 'transient)
+(require 'finder)
 
 ;;;###autoload (autoload 'h-transient "h-transient" nil t)
 (transient-define-prefix h-transient ()
@@ -68,7 +69,6 @@
     ("p" "Emacs packages"                         finder-by-keyword)]]
   ["Help"
     ("t" "Start the Emacs tutorial"                help-with-tutorial)
-    ("^" "Display the quick help buffer."         help-quit-or-quick)
     ("e" "Show recent messages"                   view-echo-area-messages)
     ("l" "Show last 300 input keystrokes"         view-lossage)
     ("." "Show local help at point"               display-local-help)]
