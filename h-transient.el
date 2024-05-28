@@ -6,7 +6,7 @@
 ;; URL: https://github.com/KarimAziev/h-transient
 ;; Version: 0.1.0
 ;; Keywords: help docs
-;; Package-Requires: ((emacs "27.1") (compat "28.1.1.0") (transient "0.3.0"))
+;; Package-Requires: ((emacs "27.1") (compat "28.1.1.0") (transient "0.6.0"))
 
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -91,6 +91,100 @@
     ("s" "Show current syntax table"              describe-syntax)
     ("H" "Display the HELLO file"                 view-hello-file)
     ("C-h d" "Describe current display table"     describe-current-display-table)]])
+
+;;;###autoload (autoload 'h-transient-customize-menu "h-transient" nil t)
+(transient-define-prefix h-transient-customize-menu ()
+  "Customize Emacs settings."
+  ["Customize Emacs settings"
+   ["Global"
+    ("C" "Customize" customize)
+    ("B" "Browse" customize-browse)
+    ("A" "Apropos" customize-apropos)]
+   ["Basic"
+    ("g" "Group" customize-group)
+    ("o" "Option" customize-option)
+    ("f" "Face" customize-face)]
+   ["Other Window"
+    ("4g" "Group" customize-group-other-window)
+    ("4o" "Option" customize-option-other-window)
+    ("4v" "Option" customize-option-other-window)
+    ("4f" "Face" customize-face-other-window)]]
+  ["Advanced"
+   ["Apropos"
+    ("aa" "Everything" customize-apropos)
+    ("ag" "Groups" customize-apropos-groups)
+    ("ao" "Options" customize-apropos-options)
+    ("af" "Faces" customize-apropos-faces)]
+   ["Search"
+    ("n" "Since Version" customize-changed-options)
+    ("u" "Unsaved" customize-unsaved)
+    ("s" "Saved" customize-saved)
+    ("r" "Rogue" customize-rogue)]
+   ["Themes"
+    ("t" "Theme" customize-themes)
+    ("T" "Create Theme" customize-create-theme)]])
+
+;;;###autoload (autoload 'h-transient-kmacro-menu "h-transient" nil t)
+(transient-define-prefix h-transient-kmacro-menu ()
+  "Command dispatcher for kmacro."
+  [:description
+   (lambda ()
+     (string-join (remove nil
+                          (list
+                           "Status: "
+                           (when defining-kbd-macro
+                             "Defining ")
+                           (when executing-kbd-macro
+                             (format "Executing %s"
+                                     executing-kbd-macro))))))
+   ("s" kmacro-start-macro :description (lambda ()
+                                          (if defining-kbd-macro
+                                              "Stop"
+                                            "Start")))
+   ("<f3>" "Start or insert counter"
+    kmacro-start-macro-or-insert-counter)
+   ("r" "Apply macro to region lines" apply-macro-to-region-lines)
+   ("D" "Delete current macro" kmacro-delete-ring-head)
+   ("d" "Redisplay" kmacro-redisplay :inapt-if-not
+    (lambda ()
+      (or executing-kbd-macro
+          defining-kbd-macro)))
+   ("e" "End and call macro" kmacro-end-and-call-macro)
+   ("z" "Repeat without repeating prefix"
+    kmacro-end-or-call-macro-repeat)
+   ("o" "Execute second macro in macro ring"
+    kmacro-call-ring-2nd-repeat)]
+  ["Moving"
+   ("n" "Next macro"
+    kmacro-cycle-ring-next :transient t)
+   ("p" "Previous macro"
+    kmacro-cycle-ring-previous :transient t)]
+  ["Edit"
+   ("L" "Edit last macro" kmacro-edit-macro-repeat)
+   ("RET" "Edit last without kmacro-repeat"
+    kmacro-edit-macro)
+   ("E" "Edit a keyboard macro" edit-kbd-macro)
+   ("x" "Step edit and execute" kmacro-step-edit-macro)
+   ("," "Swap first two macros" kmacro-swap-ring)
+   ("l" "Edit most recent 300 keystrokes as a keyboard macro"
+    kmacro-edit-lossage)
+   ("N" "Assign a name to the last keyboard macro defined"
+    kmacro-name-last-macro)]
+  ["Counter"
+   ("C" "Insert ‘kmacro-counter’, then increment it"
+    kmacro-insert-counter)
+   ("c" "Set the value of ‘kmacro-counter’" kmacro-set-counter)
+   ("+" "Add the value to ‘kmacro-counter’" kmacro-add-counter)
+   ("f" "Set the format of ‘kmacro-counter’ to FORMAT"
+    kmacro-set-format)]
+  ["Options"
+   ("v" "View last macro" kmacro-view-macro-repeat)
+   ("b" "Bind macro to a key" kmacro-bind-to-key)
+   ("q" "Query user" kbd-macro-query)
+   ("G" "Store macro in register" kmacro-to-register)]
+  (interactive)
+  (require 'kmacro)
+  (transient-setup #'h-transient-kmacro-menu))
 
 (provide 'h-transient)
 ;;; h-transient.el ends here
